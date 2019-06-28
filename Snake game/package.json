@@ -1,0 +1,12 @@
+{
+  "name": "react-snake-game",
+  "version": "1.0.0",
+  "description": "Snak Game",
+  "main": "main.js",
+  "scripts": {
+    "start": "webpack-dev-server --mode development --open --hot",
+    "build": "webpack --mode production"
+  },
+  "author": "",
+  "license": "ISC"
+}

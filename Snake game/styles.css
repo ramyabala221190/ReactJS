@@ -1,0 +1,41 @@
+#gamebox
+{
+    position:relative;
+    width:100px;
+    height:100px;
+    border-color:blue;
+    border-width:2px;
+    border-style:solid;
+    background-color: black;
+}
+
+#snake
+{
+  position:relative;
+  left:0px;
+  right:0px;
+  bottom:0px;
+  top:0px;
+    width:20px;
+    height:20px;
+    border-color:green;
+    border-width:2px;
+    border-style:solid;  
+    background-color:green;
+}
+
+#apple
+{
+    position:relative;
+    left:0px;
+  right:0px;
+  bottom:0px;
+  top:0px;
+    width:10px;
+    height:10px;
+    border-color:red;
+    border-width:2px;
+    border-style:solid;  
+    background-color:red;
+    border-radius: 10px;
+}
