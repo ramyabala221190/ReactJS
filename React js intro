@@ -1,0 +1,264 @@
+First add the package.json file to your working directory with the below command:
+
+npm init
+
+Add the below files manually:
+
+.babelrc                     -no changes to be made.Same content
+webpack.config.js            -no changes to be made.Same content
+app.jsx
+main.js
+index.html
+
+Installations needed for React js to work
+
+npm install react --save
+npm install react-dom --save
+npm install webpack webpack-dev-server webpack-cli --save
+npm install babel-core babel-loader@7 babel-preset-env babel-preset-react html-webpack-plugin --save-dev
+npm install --save-dev babel-preset-es2015
+
+Make the below changes in package.json file:
+
+In scripts object replace "test": "echo \"Error: no test specified\" && exit 1" with
+"start": "webpack-dev-server --mode development --open --hot",
+"build": "webpack --mode production"
+
+To view your changes, type npm start.
+
+Everytime you make a change, the changes are automatically compiled and browser is refreshed.
+
+app.jsx contains the components
+
+main.js loads the component into respective tags in index.html as below
+
+ReactDom.render(<App/>,document.getElementById('app'));
+
+ReactDom is imported from react-dom package. The render function maps the component App to the <div id="app"></div>
+
+This <div id="app"></div> is a root DOM node because everything inside it will be managed by React DOM.
+
+Applications built with just React usually have a single root DOM node. 
+If you are integrating React into an existing app, you may have as many isolated root DOM nodes as you like.
+
+To render a React element into a root DOM node, pass both to ReactDOM.render():
+
+webpack.config.js and .babelrc are just config files necessary.
+
+In webpack.config, we define main.js as the entry file where app.jsx is loaded.
+Also index.html is the template that is loaded first.
+
+App component class holds content of 3 other components-Header,Content and Footer.
+
+Make sure all the components in the jsx file have the same function render() used else it throws error.
+
+State is the place where the data comes from. We should always try to make our state as simple 
+as possible and minimize the number of stateful components. 
+If we have, for example, ten components that need data from the state, 
+we should create one container component that will keep the state for all of them.
+
+The main difference between state and props is that props are immutable. This is why the container 
+component should define the state that can be updated and changed, while the child components 
+should only pass data from the state using props.
+
+We are setting the state in our parent component and passing it down the component tree using props.
+
+This is why state is often called local or encapsulated. It is not accessible to any component other than 
+the one that owns and sets it.
+
+A component may choose to pass its state down as props to its child components:
+
+state->props in case state data is passed from parent to child components.
+If using state data in the same component where it is defined, props not needed.
+--------------------------------------------------------------------------------------------------------------------
+Components.
+
+When the component content is loaded into the DOM, componentDidMount() is called.
+When the component is unloaded from the DOM, the componentWillUnmount() is called.
+
+Every component will have a render() to paste its content onto the DOM.
+The component can also have user-defined functions but make sure you bind the functions inside the constructor
+before using it.
+Example:this.tick=this.tick.bind(this);
+
+The above binding is not needed, if the function is called in the event as below:
+onClick={()=>{this.function_name(arg)}}
+
+If the function is called as below then binding is needed:
+onClick={this.function_name}
+
+
+The only place where you can assign this.state is the constructor.
+setState() method is used to update the value of a property inside this.state object of a component.
+Every time setState() is called, you will update the property value inside the method.
+Once state of the property has changed, React will call the render() of the component to update the DOM
+with the updated property value.
+Note that just the property value will be updated.The entire DOM wont be refreshed.
+
+-->All React components must act like pure functions with respect to their props.
+Whether you declare a component as a function or a class, it must never modify its own props.
+
+Consider this sum function:
+
+function sum(a, b) {
+  return a + b;
+}
+Such functions are called “pure” because they do not attempt to change their inputs, and always 
+return the same result for the same inputs.
+
+In contrast, this function is impure because it changes its own input:
+
+function withdraw(account, amount) {
+  account.total -= amount;
+}
+
+State allows React components to change their output over time in response to user actions, 
+network responses, and anything else, without violating this rule.
+
+--------------------------------------------------------------------------
+
+Mapping a list of items
+
+Assume you have an array or a number of items which you want to display onto the dom.
+You can use map() and keys to achieve this.
+Note tha map function only works for arrays.
+Make sure you have the list of items in an array.
+
+----------------------------------------------------------------------------
+
+Forms
+
+In React, we assign a state property to every element in the form and keep updating the state whenever
+the value of the element changes.
+
+So an onChange event is needed for every form element.
+This event should call a seperate function for every form element where the setState() function updates the state
+to the current event.target.value
+
+For all radio buttons,1 function is sufficient for the onChange event.
+For each check box, a seperate function is needed.
+
+In the app.jsx file, please note the state values:
+
+this.state={
+select_value:"",
+input_value:"",
+selectedOption:"",
+check1:false,
+check2:false,
+check3:false
+}
+
+For text box,select box and radio buttons you can set it to "",
+For checkboxes, set it to false since initially everything is unchecked.
+
+--------------------------------------------------------------------------------
+Displaying data example
+
+Here we have a simple array of objects which we want to display in a table based on the mock-update
+in https://reactjs.org/docs/thinking-in-react.html
+
+The points to note here are:
+
+-->Which variables to use and when?
+1. Use state if changes in data should affect the view (e.g. store user location in state so that current temperature 
+can be established and rendered based on this location). Also, state can be used in the logic found in other methods 
+of your component (e.g. fetch background image based on user's current location).
+
+2.Variables declared inside other methods of your component are often used to temporarily store data coming, 
+for example, from the state, props, input fields etc. These variables are only accessible within those methods.
+
+3.Variables are often declared inside render() to temporarily store data held in state or props. 
+These variables are only accessible inside render().
+
+--->Conditional Rendering of Components
+
+You can define the conditions under which components need to render inside the render()
+For instance:
+
+let sporting,electron,stocking;
+if(this.state.onlyStock==false)
+{
+sporting=<SportingGoods sport={this.state.sporting}></SportingGoods>;
+electron=<Electronics elect={this.state.electronic}></Electronics>;
+}
+else
+{
+stocking=<ProductsInStock stock={this.state.Instock}></ProductsInStock>;	
+}
+
+Inside the return(), we write just {sporting}{stocking}{electron}
+These components will display only if condition holds true.
+
+---------------------------------------------------------------------------------------
+
+Passing arguments to functions and functions without arguments
+
+To pass an argument to a function in case of an event inside a tag, you could do it as below:
+
+onClick={()=>{this.function_name(arg)}}
+or
+onClick={this.function_name.bind(this,arg)}
+
+In above 2 cases there is "no need" to bind the function seperately as below:
+this.function_name=this.function_name.bind(this);
+
+If you dont want to pass arguments to function then you can use below syntax:
+
+onClick={this.function_name}
+You also need to bind the function seperately in the constructor:
+this.function_name=this.function_name.bind(this);
+
+To call a function in an event called via javascript
+
+element.onclick=()=>
+{
+this.function_name(arg);
+}
+
+------------------------------------------------------------------------------------------
+
+Styles
+
+You can follow inline and external styling
+
+In external stylesheets, you can create a .css file and refer it in index.html
+You can use the class names in all your component templates.
+
+Make sure you refer it as className="class_name" in the tag
+Dont use class as in regular css.
+
+Also you can add styles to the tags with unique ids in the .css file directly.
+
+In inline styling, there are 2 ways:
+
+-->You can define the style as a constant and then refer it in the tag as style={constant_name}
+
+const st=
+{
+
+'position':'absolute',
+'color':'red'
+
+}
+
+<p style={st}></p>
+
+--->Other way is directly add the property inside the tag and omit the const
+<p style={{position:'absolute'}}></p>
+
+<td style={{color:'red',fontWeight:'600'}}></td>
+
+------------------------------------------------------------------------------------------------------------
+
+Calls to setState are asynchronous - don’t rely on this.state to reflect the new value immediately after calling setState.
+
+So if you want to get the latest value of this.state to use further, call the function or perform the actions
+inside the ()=>{}
+
+this.state={
+obj:value,()=>{any action or call function}  
+}
+
+You can access the updated value there or in the function called.
+
